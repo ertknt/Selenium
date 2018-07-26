@@ -13,61 +13,65 @@ namespace SeleniumTest
     class Program
     {
         //initialize the page
-        
 
         static void Main(string[] args)
         {
 
         }
 
-        [SetUp]
-        public void Initialize()
+        [TestFixture]
+        public class Tests
         {
-            PropertiesCollection.driver = new ChromeDriver();
-            //navigate to n11 page
-            PropertiesCollection.driver.Navigate().GoToUrl("https://www.n11.com");
-            Console.WriteLine("Navigated to the main page.");
-        }
 
-        [Test]
-        public void LoginTest()
-        {
-            //login to site
-            LoginPageObject pageLogin = new LoginPageObject();
-            pageLogin.Login("ertankanter@gmail.com", "177901Ab");
-        }
+            [SetUp, Order(1)]
+            public void Initialize()
+            {
+                PropertiesCollection.driver = new ChromeDriver();
+                //navigate to n11 page
+                PropertiesCollection.driver.Navigate().GoToUrl("https://www.n11.com");
+                Console.WriteLine("Navigated to the main page.");
+            }
 
-        [Test]
-        public void SearchTest()
-        {
-            N11PageObject page = new N11PageObject();
-            page.txtSearch.SendKeys("Samsung");
-            page.btnSearch.Click();
-            
-            Console.WriteLine("searched Samsung");
-        }
+            [Test, Order(2)]
+            public void LoginTest()
+            {
+                //login to site
+                LoginPageObject pageLogin = new LoginPageObject();
+                pageLogin.Login("ertankanter@gmail.com", "177901Ab");
+            }
 
-        [Test]
-        public void GoToSecondPageTest()
-        {
-            N11PageObject page = new N11PageObject();
-            page.btnGoToSecondPage.Click();
-            Console.WriteLine("This is the second page.");
-            
-        }
+            [Test, Order(3)]
+            public void SearchTest()
+            {
+                N11PageObject page = new N11PageObject();
+                page.txtSearch.SendKeys("Samsung");
+                page.btnSearch.Click();
 
-        [Test]
-        public void GoToFavorites()
-        {
-            N11PageObject page = new N11PageObject();
-            page.btnFav.Click();
-        }
+                Console.WriteLine("searched Samsung");
+            }
 
-        [TearDown]
-        public void Clean()
-        {
-            PropertiesCollection.driver.Close();
-            Console.WriteLine("Browser closed.");
+            [Test, Order(4)]
+            public void GoToSecondPageTest()
+            {
+                N11PageObject page = new N11PageObject();
+                page.btnGoToSecondPage.Click();
+                Console.WriteLine("This is the second page.");
+
+            }
+
+            [Test, Order(5)]
+            public void GoToFavorites()
+            {
+                N11PageObject page = new N11PageObject();
+                page.btnFav.Click();
+            }
+
+            [TearDown, Order(6)]
+            public void Clean()
+            {
+                PropertiesCollection.driver.Close();
+                Console.WriteLine("Browser closed.");
+            }
         }
     }
 }
